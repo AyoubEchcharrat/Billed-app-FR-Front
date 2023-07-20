@@ -14,6 +14,9 @@ export default class NewBill {
     this.fileName = null
     this.billId = null
     new Logout({ document, localStorage, onNavigate })
+    let errorContainer = document.createElement('div')
+    errorContainer.classList.add('error_container')
+    file.after(errorContainer)
   }
   handleChangeFile = e => {
     e.preventDefault()
@@ -22,6 +25,21 @@ export default class NewBill {
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
+    let errorContainer = this.document.querySelector('.error_container')
+    let extension = file.type
+    let btnSend = this.document.getElementById('btn-send-bill')
+    btnSend.disabled = false
+    errorContainer.innerHTML = ''
+    if(extension !== 'image/jpeg' && extension !== 'image/png' && extension !== 'image/jpg'){
+      errorContainer.innerHTML = ''
+      let errorMessage = document.createElement('p')
+      errorMessage.setAttribute('data-testid','error_message')
+      errorMessage.classList.add('error_message')
+      errorContainer.append(errorMessage)
+      errorMessage.innerHTML="L'extension du fichier ajouté doit être JPG ou PNG."
+      btnSend.disabled = true
+    }
+
     formData.append('file', file)
     formData.append('email', email)
 

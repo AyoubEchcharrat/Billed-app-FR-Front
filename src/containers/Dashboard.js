@@ -145,8 +145,10 @@ export default class {
       this.counter ++
     }
 
-    bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+    bills.forEach(bill => { // off() pour supprimer l'event s'il y en a un d'attaché. 
+      //Si non ne rien faire. Et puis ajouter l'event on()
+      $(`#open-bill${bill.id}`).off("click")
+      $(`#open-bill${bill.id}`).on("click",((e) => this.handleEditTicket(e, bill, bills)))
     })
 
     return bills
